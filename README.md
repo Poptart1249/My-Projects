@@ -25,6 +25,6 @@ Link: [(#buggedswitchproject)](https://github.com/Poptart1249/My-Projects/blob/m
 In order to run this code, copy and paste the entire block of code to your chosen compiler and run the program.
 
 ## Technologies Used
-List the technologies, programming languages, and tools used in your projects. For example:
+List of the technologies, programming languages, and tools used in these projects
 - Java
 
