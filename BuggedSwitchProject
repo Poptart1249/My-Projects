@@ -1,0 +1,48 @@
+/*
+// Jamison Williams
+// CSC-151 0B04
+// Runs do-while, runs method, runs switch... Determines price for pet food
+*/
+package buggedswitch_williamsjamison;
+    import java.util.Scanner;
+public class BuggedSwitch_WilliamsJamison {
+    public static void main(String[] args) {
+        Scanner scnr = new Scanner(System.in);
+        String run;
+    do {
+        printSwitch();
+        System.out.println("Type \"Yes\" if you would like to run again.");
+        run = scnr.next();
+    } while (run.equalsIgnoreCase("yes"));
+        }
+    public static void printSwitch() //Creates Method
+    { 
+     //<editor-fold defaultstate="collapsed" desc="Switch"> 
+    Scanner scnr = new Scanner(System.in);
+    String input;     // To hold the user's input
+    char foodGrade;   // Grade of pet food
+    System.out.println("Our pet food is available in three grades:");
+    System.out.print("A, B, and C. Which do you want pricing for? ");
+    input = scnr.next();
+    foodGrade = input.charAt(0);
+switch(foodGrade)
+{
+    case 'a':
+    case 'A':
+        System.out.println("30 cents per lb.");
+        break;
+    case 'b':
+    case 'B':
+        System.out.println("20 cents per lb.");
+        break;
+    case 'c':
+    case 'C':
+        System.out.println("15 cents per lb.");
+        break;
+    default:
+        System.out.println("Invalid choice.");
+        break;
+}
+    }
+//</editor-fold>
+    }
