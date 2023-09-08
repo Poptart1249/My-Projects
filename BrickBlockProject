@@ -1,0 +1,211 @@
+/* BrickBlock Project
+ * Program gives an accurate estimate of needed bricks for a build based on input given from user  
+ * Date Created: 10/20/21   //      Last Modified: 12/5/21 
+ * Group Project by: Jamison Williams, Kevin Patterson, Logan Sines
+ */
+
+package brickblockproject;
+import javax.swing.*;
+public class BrickBlockProject {
+public static double brickL, brickW, brickH, brickA, wallH, wallL, 
+        finalWallL, wallW, item, voidH, voidL, wallA, voidA, finalA, overage;
+    public static void main(String[] args) {
+        System.out.println("Powering On...\n\n\n\n");
+        //JUMPS TO METHOD TO GET WHATEVER COMES FIRST
+        getBrick();
+    }
+    public static void getBrick () {
+        String input;
+        String[] option = null;
+        input = JOptionPane.showInputDialog(/*EDIT TEXT TO SHOW ALL 
+                BRICK DIMENSIONS*/"What bricks do you plan on "
+                        + "using?\n1: Standard - Height(3 5/8 in) * "
+                        + "Width(2 1/4 in) * Length(8 in)\n2: Queen   "
+                        + "   - Height(3 in)        * Width(2 3/4 in) * "
+                        + "Length(7 5/8 in)\n3: Modular   - Height(3 5/8 in) * "
+                        + "Width(2 1/4 in) * Length(7 5/8 in)\n4. Closure "
+                        + "   - Height(3 5/8 in) * Width(3 5/8 in) *"
+                        + " Length(7 5/8 in)\n5. Other\n6. Exit");
+        try {
+            int menuOption = Integer.parseInt(input);
+            /*switch statement applies the variable for BRICK to 
+                chosen brick dimensions*/
+            if (menuOption > 0 && menuOption < 7){
+                    option = new String[menuOption];
+                //<editor-fold defaultstate="collapsed" desc="BrickOptions">
+                switch (menuOption){
+                    case 1:
+                        brickH = 4;
+                        brickL = 8.375;
+                        break;
+                    case 2:
+                        brickH = 3.375;
+                        brickL = 8;
+                        break;
+                    case 3:
+                        brickH = 4;
+                        brickL = 8;
+                        break;
+                    case 4:
+                        brickH = 4;
+                        brickL = 8;
+                        break;
+                    case 5:
+                        brickH = Double.parseDouble(JOptionPane.showInputDialog(null, "Enter the height of the brick you're using: (in)"));
+                        brickH = brickH + 0.375;                      
+                        brickL = Double.parseDouble(JOptionPane.showInputDialog(null, "Enter the length of the brick you're using: (in)"));
+                        brickL = brickL + 0.375;
+                        brickW = Double.parseDouble(JOptionPane.showInputDialog(null, "Enter the width of the brick you're using: (in)"));                        
+                        break;
+                    case 6:
+                        JOptionPane.showMessageDialog(null, "Thank you, Have a great day!");
+                        System.exit(0);
+                        break;
+                }
+                //</editor-fold>
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "Your input was invalid"
+                        + "\nPlease type a number 1-6");
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Your input was invalid"
+                    + "\nPlease type a number 1-6");
+        }
+        wallMeasurements();
+    }   
+    public static void wallMeasurements() {
+        wallH = Double.parseDouble(JOptionPane.showInputDialog(null, "Enter the height of the desired wall (in): "));
+        
+        String input;
+        input = JOptionPane.showInputDialog("From corner to corner, enter the length of the desired wall: (ft)");
+        wallL = wallL + Double.parseDouble(input);
+        boolean stop = false;
+        while(!stop)
+        {
+            Object[] options1 = { "Yes", "No" };
+            JPanel panel = new JPanel();
+            panel.add(new JLabel("Would you like to enter the length of another wall?"));
+            int result = JOptionPane.showOptionDialog(null, panel, "Wall Length", 
+            JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options1, null);
+            
+            if (result == JOptionPane.YES_OPTION)
+            {
+                input = JOptionPane.showInputDialog("From corner to corner, enter "
+                + "the length of the desired wall: (ft)" + "\nCurrent total length: " + wallL +" ft.");
+                wallL = wallL + Double.parseDouble(input);
+            }
+            
+            if (result == JOptionPane.NO_OPTION)
+            {
+                finalWallL = wallL * 12;
+                stop = true;
+            }
+            
+        }
+        JOptionPane.showMessageDialog(null,"Height: " + wallH + " in\nLengh: " + wallL + 
+                " ft");
+        getVoids();
+    }
+    public static void getVoids() {
+        Object[] options1 = { "Yes", "No" };
+        JPanel panel = new JPanel();
+        panel.add(new JLabel("Are there any door or window areas needed?"));
+        int result = JOptionPane.showOptionDialog(null, panel, "Void Areas", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options1, null);
+
+        if (result == JOptionPane.YES_OPTION){
+            calcVoids();
+        }
+        if (result == JOptionPane.NO_OPTION){
+            areaCalculations();
+        }
+    }
+    public static void calcVoids() {
+        String input;
+        boolean cont = false;
+        boolean cont2 = false;
+        while (cont == false){
+            input = JOptionPane.showInputDialog("Enter the height of void area needed: (in)");
+            voidH = Double.parseDouble(input);
+            if (voidH > wallH){
+                JOptionPane.showMessageDialog(null, "ERROR\nVoid height exceeds wall height");
+                cont = false;
+            }
+            if (voidH <= wallH){
+                cont = true;
+            }
+        }
+        while (cont2 == false){
+            input = JOptionPane.showInputDialog("Enter the length of the void area needed: (in)");
+            voidL = Double.parseDouble(input);   
+            if (voidL > (wallL * 12)){
+                JOptionPane.showMessageDialog(null, "ERROR\nVoid length exceeds wall length");
+                cont2 = false;
+            }
+            if (voidL <= (wallL * 12)){
+                cont2 = true;
+            }
+        }  
+        voidA = voidA + (voidH * voidL);       
+            Object[] options1 = { "Yes", "No" };
+            JPanel panel = new JPanel();
+            panel.add(new JLabel("Would you like to enter another void?"));
+            int result = JOptionPane.showOptionDialog(null, panel, "Void Dimensions", 
+            JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options1, null);
+            
+            if (result == JOptionPane.YES_OPTION){
+                calcVoids();
+            }            
+            if (result == JOptionPane.NO_OPTION){
+                areaCalculations();
+        }
+    }
+    public static void areaCalculations() {
+        String input;
+        String[] opt = null;  
+        input = JOptionPane.showInputDialog("Would you like to add a brick overage?"
+                + "\nRecommended Overage (5-15%)\n1: 5%\n2: 10%\n3: 15%\n4: No\n(Type a number 1-4)");
+        try {
+            int menuOption = Integer.parseInt(input);
+            if (menuOption > 0 && menuOption < 5){
+                    opt = new String[menuOption];
+                //<editor-fold defaultstate="collapsed" desc="brickOverage">
+                switch (menuOption){
+                    case 1:
+                        overage = 0.05;
+                        break;
+                    case 2:
+                        overage = 0.10;
+                        break;
+                    case 3:
+                        overage = 0.15;
+                        break;
+                    case 4:
+                        overage = 0;
+                        break;
+                }
+                //</editor-fold>
+            }
+            else
+                JOptionPane.showMessageDialog(null, "Your input was invalid\nPlease type a number 1-4");            
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Your input was invalid\nPlease type a number 1-4");
+        }
+        
+        wallA = wallH * wallL;
+        finalA = wallA - voidA;
+        brickA = brickH * brickL;
+        double bricks = Math.ceil(finalA / brickA);
+        overage = bricks * overage;
+        bricks = Math.ceil(bricks + overage);
+        
+        JOptionPane.showMessageDialog(null,"Wall Area (inches squared): " + wallA + 
+        "\nVoid Area (inches squared): " + voidA + "\nTotal Area (inches squared): " 
+        + finalA + "\nBricks Needed: " + bricks);
+        exit();
+    }
+    public static void exit(){
+        JOptionPane.showMessageDialog(null, "Goodbye...");
+        System.out.println("Powering Off...\n");
+    }
+}
