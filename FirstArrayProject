@@ -1,0 +1,26 @@
+/* This program puts the seven dwarfs into an arraylist and outputs
+* Jamison Williams
+* CSC - 151 0B04
+* 4/1/2021
+*/
+package arraysevendwarfs;
+import java.util.*;
+public class ArraySevenDwarfs {
+   public static void main(String[] args) {
+       List nameList = new ArrayList();//Creates Array
+        nameList.add("Happy");//      vvv Adds Names vvv
+        nameList.add("Grumpy");//         //////////
+        nameList.add("Dopey");//          //////////
+        nameList.add("Doc");//            //////////
+        nameList.add("Bashful");//        //////////
+        nameList.add("Sneezy");//         //////////
+        nameList.add("Sleepy");//     ^^^ Adds Names ^^^
+      // Display the size of the ArrayList.
+      System.out.print("The ArrayList has " + nameList.size());
+                System.out.println(" objects stored in it.");
+      System.out.println("The Seven Dwarfs: ");
+      for (Object sevenDwarfs : nameList){
+          System.out.println(sevenDwarfs);
+      }
+   }
+}
