@@ -1,0 +1,142 @@
+/*
+ * Check temperature and decides reaction
+ * Jamison Williams
+ * Last Modified: 3/4/2021
+ */
+package tempstation_williams;
+import java.util.*;
+import javax.swing.*;
+public class TempStation_Williams {
+    public static void main(String[] args) {
+        ArrayList<String> highTempList = new ArrayList<String>();
+        String input;
+        int mask;
+        int cont = 0;
+        System.out.println("Powering On...");  
+        do {
+            input = JOptionPane.showInputDialog("Verify person is properly wearing a face covering.\n(1)Yes\n(2)No");
+            mask = Integer.parseInt(input);
+                if (mask == 1)
+                    screening(highTempList);
+                if (mask == 2){
+                    JOptionPane.showMessageDialog(null, "Hand out a face mask\nPlease wear face mask at all times");
+                    screening(highTempList);
+                }
+                //JOPTIONPANE STUFF vvv
+                Object[] options1 = { "Yes", "No" };
+                JPanel panel = new JPanel();
+                panel.add(new JLabel("Shutdown the program?"));
+        
+                int result = JOptionPane.showOptionDialog(null, panel, "  TempChecker", JOptionPane.YES_NO_OPTION, 
+                        JOptionPane.PLAIN_MESSAGE, null, options1, null);
+                if (result == JOptionPane.YES_OPTION)
+                    cont = -1;
+                if (result == JOptionPane.NO_OPTION)
+                    cont = 0;
+                //JOPTIONPANE STUFF ^^^
+                if (cont == -1)
+                System.out.println("Shutting Down...");
+        } while (cont != -1);
+    }
+    public static void tempStation(){
+        ArrayList<String> highTempList = new ArrayList<String>();
+        String input;
+        double temp;
+        highTemp0();
+        input = JOptionPane.showInputDialog("Please enter temperature.\n(Type -1 at anytime to Exit)");
+        temp = Double.parseDouble(input);
+        
+        if (temp >= 100.4){
+            highTemp1();
+            idCheck(highTempList);
+        }
+        if (temp < 100.4)
+            JOptionPane.showMessageDialog(null, "Your temperature is " + temp + " \n\nPlease take an armband and wear it at all "
+                    + "times while on campus.\n\nThank you, have a great day!");
+    
+        }
+    public static void highTemp1 (){
+        String category;
+        int persons;
+       
+        JOptionPane.showMessageDialog(null, "For the safety of yours and everyone around you, we require you to leave campus. \n\n"
+                + "Monitor your temperature and your health for sympotoms of COVID-19. \n\nPlease take a copy of the FTCC's COVID-19 "
+                + "Campus Exposure Procedures document. \n\nPlease wait for the Public Safety officer to escort you off campus.");                  
+    
+            category = JOptionPane.showInputDialog("Which category do you fall under?\n\n(1) Student\n(2) "
+                    + "Faculty\n(3) Staff\n(4) Visitor");
+            persons = Integer.parseInt(category); 
+        switch (persons){
+            case 1:
+                JOptionPane.showMessageDialog(null, "Dont forget to contact instructors to arrange make-up work.");                  
+                break;
+            case 2:
+                JOptionPane.showMessageDialog(null, "Contact your immediate supervisor and the COVID Coordinator."); 
+                break;
+            case 3:
+                JOptionPane.showMessageDialog(null, "Contact your immediate supervisor and the COVID Coordinator.");
+                break;
+            case 4:
+                JOptionPane.showMessageDialog(null, "VISITOR TEXT");
+                break;    
+        }
+    }
+    public static void highTemp0 () {
+            JOptionPane.showMessageDialog(null, "Public Safety needs to be contacted just in case. (910)-678-8433 \n\nPlease "
+                    + "stay in this area for 3-5 minutes and check your temperature again.");
+
+    }
+    public static void screening (ArrayList<String> highTempList){
+        String input;
+        int screening;
+        input = JOptionPane.showInputDialog("Ask if person can answer NO to all screening questions.\n\n(1)YES to ANY "
+                + "questions\n(2)No to ALL questions");
+        screening = Integer.parseInt(input);
+        if (screening == 1){
+            JOptionPane.showMessageDialog(null, "Not cleared for access to FTCC facilites");
+            highTemp1();
+            idCheck(highTempList);
+        }
+        if (screening == 2){
+            program();
+        }
+    }
+    public static void program (){
+        ArrayList<String> highTempList = new ArrayList<String>();
+        String input;
+        double temp;
+        
+        input = JOptionPane.showInputDialog("Please enter temperature.\n(Type -1 at anytime to Exit)");
+        temp = Double.parseDouble(input);
+        if ((temp < 100.4) &&(temp >= 80))
+                JOptionPane.showMessageDialog(null, "Your temperature is " + temp + "\n\nPlease take an "
+                        + "armband and wear it at all times "
+                        + "while on campus. \n\nThank you, have a great day!");
+        if ((temp >= 100.4) && (temp <= 108))
+                tempStation();
+        if ((temp < 80 || temp > 108) &&(temp != -1))
+                JOptionPane.showMessageDialog(null, "Error...\nTemperature does not suffice normal body temperatures.");
+    }  
+    public static void idCheck(ArrayList<String> highTempList) {
+        Object[] options1 = { "Yes", "No" };
+        JPanel panel = new JPanel();
+        panel.add(new JLabel("Would you like to enter an ID#?"));
+        
+        int result = JOptionPane.showOptionDialog(null, panel, "  TempChecker", JOptionPane.YES_NO_OPTION, 
+                JOptionPane.PLAIN_MESSAGE, null, options1, null);
+        if (result == JOptionPane.YES_OPTION)
+            addList(highTempList);
+        if (result == JOptionPane.NO_OPTION)
+            JOptionPane.showMessageDialog(null, "NO ID TEXT");
+    }
+    public static void addList(ArrayList<String> highTempList){
+        String input;
+        String highTemps = "";
+        input = JOptionPane.showInputDialog("Enter Id#:");
+        highTempList.add(input);
+        for (String currentNum : highTempList){
+            highTemps += "\n" + currentNum;
+        }
+        JOptionPane.showMessageDialog(null, "High Temperatures:\n" + highTemps);
+    }
+}
